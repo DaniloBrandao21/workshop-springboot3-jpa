@@ -90,7 +90,7 @@ public class Order implements Serializable {
 		}
 	}
 	
-	@JsonIgnore
+
 	public Set<OrderItem> getItens(){
 		return items; 
 	}
