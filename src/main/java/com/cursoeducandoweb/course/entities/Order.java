@@ -7,9 +7,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.cursoeducandoweb.course.entities.enums.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -42,9 +42,10 @@ public class Order implements Serializable {
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payment payment;
 	
-	public Order() {
-	}
+	public Order() {}
 
 	public Order(Long id, Instant moment, OrderStatus orderStatus,User client) {
 		super();
@@ -90,10 +91,17 @@ public class Order implements Serializable {
 		}
 	}
 	
-
 	public Set<OrderItem> getItens(){
 		return items; 
 	}
+	
+	public Payment getPayment() {
+		return payment;
+	}
+	
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	} 	
 
 	@Override
 	public int hashCode() {
